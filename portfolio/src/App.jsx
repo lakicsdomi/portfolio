@@ -1,4 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import profilePic from './assets/profile2.jpg';
+import { CloudCog, Server, FileBracesCorner, DraftingCompass, ChartSpline,
+	GraduationCap, MonitorSmartphone, Code2, ArrowRight, SendIcon, Phone, 
+	Mail, BriefcaseBusiness  } from 'lucide-react';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
+
+const skillIcons = [
+	<Code2 size={28}/>, 			// Languages
+	<Server size={28}/>,			// Backend & APIs
+	<DraftingCompass size={28}/>,	// Architecture
+	<CloudCog size={28}/>,			// Cloud & DevOps
+	<ChartSpline size={28}/>,		// Observability
+	<MonitorSmartphone size={28}/>,	// UI & Graphics
+]
 
 const RevealOnScroll = ({ children, className = "", delay = 0 }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -30,10 +44,8 @@ const RevealOnScroll = ({ children, className = "", delay = 0 }) => {
 };
 
 const Typewriter = ({ text, speed = 60, initialDelay = 0 }) => {
-    const [currentText, setCurrentText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isStarted, setIsStarted] = useState(false);
-    const [isFinished, setIsFinished] = useState(false);
     const [isWaiting, setIsWaiting] = useState(initialDelay > 0);
     const ref = useRef(null);
 
@@ -44,9 +56,7 @@ const Typewriter = ({ text, speed = 60, initialDelay = 0 }) => {
                     setIsStarted(true);
                 } else {
                     setIsStarted(false);
-                    setCurrentText('');
                     setCurrentIndex(0);
-                    setIsFinished(false);
                     setIsWaiting(initialDelay > 0);
                 }
             },
@@ -63,20 +73,18 @@ const Typewriter = ({ text, speed = 60, initialDelay = 0 }) => {
 
         let timeout;
         if (isWaiting) {
-            timeout = setTimeout(() => {
-                setIsWaiting(false);
-            }, initialDelay);
+            timeout = setTimeout(() => setIsWaiting(false), initialDelay);
         } else if (currentIndex < text.length) {
             timeout = setTimeout(() => {
-                setCurrentText(prev => prev + text[currentIndex]);
-                setCurrentIndex(prev => prev + 1);
+                setCurrentIndex(prev => prev + 1); 
             }, speed);
-        } else {
-            setIsFinished(true);
         }
         return () => clearTimeout(timeout);
-    }, [currentIndex, isStarted, isWaiting, speed, initialDelay, text]);
+    }, [currentIndex, isStarted, isWaiting, speed, initialDelay, text.length]);
 
+
+    const currentText = text.substring(0, currentIndex);
+    const isFinished = currentIndex >= text.length;
     const showCursor = isStarted && !isWaiting && !isFinished;
 
     return (
@@ -501,25 +509,27 @@ export default function App() {
                             {t.hero.eyebrow}
                         </p>
                         <h1 id="hero-heading" className="text-[clamp(48px,7vw,82px)] leading-[1.02] tracking-[-2px] md:tracking-[-4px] mb-[30px] font-bold text-slate-900 dark:text-white">
-                            <Typewriter text={t.hero.title1} speed={60} />
-                            <span className="block text-cyan-600 dark:text-[#67e8f9] h-[1.2em]">
-                                <Typewriter text={t.hero.title2} speed={60} initialDelay={1100} />
-                            </span>
-                        </h1>
+							<Typewriter text={t.hero.title1} speed={45} />
+							<span className="block text-cyan-600 dark:text-[#67e8f9] min-h-[2.5em] md:min-h-[1.2em]">
+								<Typewriter text={t.hero.title2} speed={45} initialDelay={1100} />
+							</span>
+						</h1>
                         <p className="max-w-[650px] text-slate-600 dark:text-[#94a3b8] text-[18px] leading-[1.8]">
                             {t.hero.desc}
                         </p>
                         <div className="flex flex-wrap gap-[14px] mt-[35px]">
                             <a href="#projects" className="inline-flex items-center justify-center px-[22px] py-[13px] rounded-lg text-sm font-semibold transition-all duration-300 hover:-translate-y-[2px] bg-cyan-600 dark:bg-[#67e8f9] text-white dark:text-[#0b1120] no-underline focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0b1120] outline-none hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95">
                                 {t.hero.btnProjects}
+								<ArrowRight size={18} className="ml-[6px]"/>
                             </a>
                             <a href="#contact" className="inline-flex items-center justify-center px-[22px] py-[13px] rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-slate-100 dark:hover:bg-[#151e2e] border border-slate-300 dark:border-[#263449] text-slate-900 dark:text-[#f1f5f9] no-underline hover:-translate-y-[2px] focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0b1120] outline-none active:scale-95">
                                 {t.hero.btnContact}
+								<SendIcon size={18} className="ml-[6px]"/>
                             </a>
                         </div>
                     </RevealOnScroll>
 
-                    <RevealOnScroll delay={200} className="absolute right-[4%] top-1/2 -translate-y-1/2 opacity-80 hidden md:block z-0">
+                    <RevealOnScroll delay={200} className="absolute right-[4%] top-[40%] -translate-y-1/2 opacity-80 hidden md:block z-0">
                         <div className="absolute w-[400px] h-[400px] rounded-full bg-cyan-400 dark:bg-[#67e8f9] blur-[140px] opacity-[0.1] dark:opacity-[0.08] animate-pulse"></div>
                         <div className="relative w-[340px] p-[28px] bg-white/75 dark:bg-[#151e2e]/75 backdrop-blur-sm border border-slate-200 dark:border-[#263449] rounded-[14px] shadow-[0_30px_80px_rgba(0,0,0,0.1)] dark:shadow-[0_30px_80px_rgba(0,0,0,0.25)] font-mono text-[14px] text-slate-700 dark:text-[#cbd5e1] hover:scale-105 transition-transform duration-500">
                             <span className="block my-[8px] text-slate-500 dark:text-[#64748b]">
@@ -534,9 +544,9 @@ export default function App() {
                             <span className="block my-[8px]">
                                 &nbsp;&nbsp;focus: <em className="text-cyan-600 dark:text-[#67e8f9] not-italic">"backend"</em>,
                             </span>
-                            <span className="block my-[8px]">
-                                &nbsp;&nbsp;coffee: <em className="text-cyan-600 dark:text-[#67e8f9] not-italic">true</em>
-                            </span>
+							<span className="block my-[8px]">
+								&nbsp;&nbsp;darts: <em className="text-cyan-600 dark:text-[#67e8f9] not-italic">"180!"</em>
+							</span>
                             <span className="block my-[8px]">
                                 {'}'};
                             </span>
@@ -545,46 +555,63 @@ export default function App() {
                 </section>
 
                 {/* ABOUT */}
-                <section id="about" aria-labelledby="about-heading" className="max-w-[1200px] mx-auto px-[6%] py-[90px] md:py-[120px] border-t border-slate-200 dark:border-slate-400/10">
-                    <RevealOnScroll className="max-w-[750px] mb-[60px]">
-                        <p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true">{t.about.label}</p>
-                        <h2 id="about-heading" className="text-[clamp(34px,5vw,52px)] leading-[1.15] tracking-[-1px] md:tracking-[-2px] font-bold text-slate-900 dark:text-white">
-                            <Typewriter text={t.about.title1} speed={30} />
-                            <span className="text-cyan-600 dark:text-[#67e8f9]">
-                                <Typewriter text={t.about.title2} speed={30} initialDelay={700} />
-                            </span>
-                        </h2>
-                    </RevealOnScroll>
+				<section id="about" aria-labelledby="about-heading" className="max-w-[1200px] mx-auto px-[6%] py-[90px] md:py-[120px] border-t border-slate-200 dark:border-slate-400/10">
+					<RevealOnScroll className="max-w-[750px] mb-[60px]">
+						<p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true">{t.about.label}</p>
+						<h2 id="about-heading" className="text-[clamp(34px,5vw,52px)] leading-[1.15] tracking-[-1px] md:tracking-[-2px] font-bold text-slate-900 dark:text-white">
+							<Typewriter text={t.about.title1} speed={30} />
+							<span className="text-cyan-600 dark:text-[#67e8f9]">
+								<Typewriter text={t.about.title2} speed={30} initialDelay={700} />
+							</span>
+						</h2>
+					</RevealOnScroll>
 
-                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-[40px] md:gap-[80px]">
-                        <RevealOnScroll delay={100}>
-                            <p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px] max-w-[700px]">{t.about.p1}</p>
-                            <p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px] max-w-[700px]">{t.about.p2}</p>
-                            <p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px] max-w-[700px]">{t.about.p3}</p>
-                        </RevealOnScroll>
-                        <RevealOnScroll delay={200}>
-                            <ul aria-label="Key Statistics" className="flex flex-col gap-[30px] p-0 m-0 list-none">
-                                <li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
-                                    <strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">3+</strong>
-                                    <span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat1}</span>
-                                </li>
-                                <li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
-                                    <strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">3</strong>
-                                    <span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat2}</span>
-                                </li>
-                                <li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
-                                    <strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">C++</strong>
-                                    <span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat3}</span>
-                                </li>
-                            </ul>
-                        </RevealOnScroll>
-                    </div>
-                </section>
+					{/* Kétfős oszlop elrendezés: Balra a kép + szöveg, jobbra a statisztikák */}
+					<div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[50px] lg:gap-[80px] items-center">
+						
+						{/* Bal oldal: Kép és szöveg egymás mellett/alatt */}
+						<div className="flex flex-col md:flex-row gap-[40px] items-center md:items-start">
+							<RevealOnScroll delay={50} className="shrink-0">
+								<div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] rounded-2xl overflow-hidden border-2 border-cyan-500/30 shadow-xl shadow-cyan-500/5 group">
+									<img 
+										src={profilePic} 
+										alt="Domonkos Lakics" 
+										className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+									/>
+								</div>
+							</RevealOnScroll>
+
+							<RevealOnScroll delay={100}>
+								<p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px]">{t.about.p1}</p>
+								<p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px]">{t.about.p2}</p>
+								<p className="text-slate-600 dark:text-[#94a3b8] text-[17px] mb-[22px]">{t.about.p3}</p>
+							</RevealOnScroll>
+						</div>
+
+						{/* Jobb oldal: Statisztikák */}
+						<RevealOnScroll delay={200}>
+							<ul aria-label="Key Statistics" className="flex flex-col gap-[30px] p-0 m-0 list-none bg-white/5 dark:bg-[#151e2e]/40 p-[30px] rounded-2xl border border-slate-200 dark:border-[#263449]">
+								<li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
+									<strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">3+</strong>
+									<span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat1}</span>
+								</li>
+								<li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
+									<strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">3</strong>
+									<span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat2}</span>
+								</li>
+								<li className="border-l-2 border-cyan-500 dark:border-[#67e8f9] pl-[20px] transition-colors hover:border-indigo-500">
+									<strong className="block text-[36px] text-slate-900 dark:text-[#f1f5f9]">C++</strong>
+									<span className="text-slate-600 dark:text-[#94a3b8] text-[14px]">{t.about.stat3}</span>
+								</li>
+							</ul>
+						</RevealOnScroll>
+					</div>
+				</section>
 
                 {/* EXPERIENCE */}
                 <section id="experience" aria-labelledby="experience-heading" className="max-w-[1200px] mx-auto px-[6%] py-[90px] md:py-[120px] border-t border-slate-200 dark:border-slate-400/10">
                     <RevealOnScroll className="max-w-[750px] mb-[60px]">
-                        <p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true">{t.experience.label}</p>
+                        <p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true"><BriefcaseBusiness size={12} className="ml-[6px] inline"/> {t.experience.label}</p>
                         <h2 id="experience-heading" className="text-[clamp(34px,5vw,52px)] leading-[1.15] tracking-[-1px] md:tracking-[-2px] font-bold text-slate-900 dark:text-white">
                             <Typewriter text={t.experience.title1} speed={30} />
                             <span className="text-cyan-600 dark:text-[#67e8f9]">
@@ -644,7 +671,9 @@ export default function App() {
                             {t.skills.categories.map((skill, index) => (
                                 <RevealOnScroll key={skill.id} delay={index * 100}>
                                     <article className="h-full p-[28px] bg-white dark:bg-[#151e2e] border border-slate-200 dark:border-[#263449] rounded-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-300 dark:hover:border-[#67e8f9]/40 hover:shadow-xl dark:hover:shadow-[0_10px_30px_rgba(6,182,212,0.1)] shadow-sm dark:shadow-none">
-                                        <div className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold mb-[25px]" aria-hidden="true">{skill.id}</div>
+                                        <div className="text-cyan-700 dark:text-[#67e8f9] mb-[25px]" aria-hidden="true">
+											{skillIcons[index]}
+										</div>
                                         <h3 className="text-[19px] mb-[20px] font-bold text-slate-900 dark:text-white">{skill.title}</h3>
                                         <ul aria-label={`Skills in ${skill.title}`} className="flex flex-wrap gap-[7px] p-0 m-0 list-none">
                                             {skill.tags.map(tag => (
@@ -704,7 +733,10 @@ export default function App() {
                 {/* EDUCATION */}
                 <section id="education" aria-labelledby="education-heading" className="max-w-[1200px] mx-auto px-[6%] py-[90px] md:py-[120px] border-t border-slate-200 dark:border-slate-400/10">
                     <RevealOnScroll className="max-w-[750px] mb-[60px]">
-                        <p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true">{t.education.label}</p>
+                        <p className="text-cyan-700 dark:text-[#67e8f9] text-[12px] font-bold tracking-[3px] mb-[20px]" aria-hidden="true">
+                            <GraduationCap size={14} className="mr-[6px] inline pb-[2px]"/> 
+                            {t.education.label}
+                        </p>
                         <h2 id="education-heading" className="text-[clamp(34px,5vw,52px)] leading-[1.15] tracking-[-1px] md:tracking-[-2px] font-bold text-slate-900 dark:text-white">
                             <Typewriter text={t.education.title1} speed={30} />
                             <span className="text-cyan-600 dark:text-[#67e8f9]">
@@ -745,18 +777,18 @@ export default function App() {
                         <p className="text-slate-600 dark:text-[#94a3b8] mb-[30px]">{t.contact.desc}</p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-[15px]">
                             <a href="mailto:domonkos.lakics@gmail.com" className="inline-flex items-center justify-center px-[22px] py-[13px] rounded-lg text-sm font-semibold transition-all duration-300 hover:-translate-y-[2px] bg-cyan-600 dark:bg-[#67e8f9] text-white dark:text-[#0b1120] no-underline focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0b1120] outline-none hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95">
-                                domonkos.lakics@gmail.com
+								<Mail size={16} className="mr-2"/> domonkos.lakics@gmail.com
                             </a>
                         </div>
                         <div className="mt-[35px] flex flex-wrap justify-center gap-[20px] md:gap-[30px]">
-                            <a href="tel:+36304813946" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-block">
-                                +36 30 481 3946
+                            <a href="tel:+36304813946" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-flex items-center">
+                                <Phone size={16} className="mr-2"/> +36 30 481 3946
                             </a>
-                            <a href="https://www.linkedin.com/in/domonkos-lakics/" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-block">
-                                LinkedIn <span className="sr-only">(opens in a new tab)</span>
+                            <a href="https://www.linkedin.com/in/domonkos-lakics/" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-flex items-center">
+                                <FaLinkedin size={16} className="mr-2"/> LinkedIn <span className="sr-only">(opens in a new tab)</span>
                             </a>
-                            <a href="https://github.com/lakicsdomi" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-block">
-                                GitHub <span className="sr-only">(opens in a new tab)</span>
+                            <a href="https://github.com/lakicsdomi" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-[#94a3b8] font-medium text-[14px] no-underline transition-colors duration-200 hover:text-cyan-600 dark:hover:text-[#67e8f9] focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-sm outline-none hover:-translate-y-0.5 active:scale-95 transition-transform inline-flex items-center">
+                                <FaGithub size={16} className="mr-2"/> GitHub <span className="sr-only">(opens in a new tab)</span>
                             </a>
                         </div>
                     </RevealOnScroll>
