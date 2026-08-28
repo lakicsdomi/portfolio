@@ -16,4 +16,13 @@
   .dark body {
     @apply bg-[#0b1120] text-[#f1f5f9];
   }
+
+  /* Accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-cyan-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-[#0b1120] rounded-md transition-shadow !important;
+  }
+
+  a[href="#main-content"]:focus-visible {
+    @apply bg-cyan-600 text-white px-4 py-2 absolute top-4 left-4 z-[200] rounded-md ring-4 ring-white ring-offset-0 !important;
+  }
 }
